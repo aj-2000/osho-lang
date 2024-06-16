@@ -2,5 +2,6 @@ let a = 1
 a = 4
 a++
 a--
-let b = 5
-print(a+b)
+let b = 5.02
+b++
+print(b+a)

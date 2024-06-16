@@ -1,5 +1,6 @@
-const a = 1
-const b = 2
-b++
+let a = 1
+a = 4
+a++
 a--
-print(a + b)
+let b = 5
+print(a+b)

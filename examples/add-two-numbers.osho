@@ -1,7 +1,0 @@
-let a1 = 1
-a1 = 4
-a1++
-a1--
-let b = 1+1+1+a1
-b++
-print(b+a1)

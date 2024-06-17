@@ -1,7 +1,5 @@
 ## TODOs
 
-1. ADD
-2. SUB
 3. MUL
 4. DIV
 5. Code Cleaning
@@ -11,5 +9,6 @@
 9. Scopes - Block
 10. Function
 11. Array
+12. Reverse polish notation (make brackets same in c and osho code)
 
 Later - Switch, While, Goto

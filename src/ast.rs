@@ -27,7 +27,8 @@ pub enum ASTNode {
 pub enum BinaryOperator {
     Plus,
     Minus,
-    // Add other operators as needed
+    Multiply,
+    Divide, // Add other operators as needed
 }
 
 pub struct Parser<'a> {
@@ -100,13 +101,24 @@ impl<'a> Parser<'a> {
     }
 
     fn expression(&mut self) -> Result<ASTNode, String> {
-        self.addition()
+        self.arithmetic()
     }
 
-    fn addition(&mut self) -> Result<ASTNode, String> {
+    fn arithmetic(&mut self) -> Result<ASTNode, String> {
         let mut node = self.primary()?;
-        while self.match_token(Kind::Plus) {
-            let operator = BinaryOperator::Plus;
+        while let Some(operator) = {
+            if self.match_token(Kind::Plus) {
+                Some(BinaryOperator::Plus)
+            } else if self.match_token(Kind::Minus) {
+                Some(BinaryOperator::Minus)
+            } else if self.match_token(Kind::Multiply) {
+                Some(BinaryOperator::Multiply)
+            } else if self.match_token(Kind::Divide) {
+                Some(BinaryOperator::Divide)
+            } else {
+                None
+            }
+        } {
             let right = self.primary()?;
             node = ASTNode::BinaryOp {
                 left: Box::new(node),
@@ -116,7 +128,7 @@ impl<'a> Parser<'a> {
         }
         Ok(node)
     }
-
+    
     fn primary(&mut self) -> Result<ASTNode, String> {
         let prev_token: Token = self.previous().clone();
         if self.match_token(Kind::Number) {
@@ -142,6 +154,7 @@ impl<'a> Parser<'a> {
 
         if self.match_token(Kind::OpenParen) {
             let expr = self.expression()?;
+            dbg!(self.tokens[self.current + 1].clone());
             self.consume(Kind::CloseParen, "Expected ')' after expression")?;
             return Ok(expr);
         }
@@ -279,6 +292,8 @@ impl SemanticAnalyzer {
                 match op {
                     BinaryOperator::Plus => Ok(left_val + right_val),
                     BinaryOperator::Minus => Ok(left_val - right_val),
+                    BinaryOperator::Divide => Ok(left_val / right_val),
+                    BinaryOperator::Multiply => Ok(left_val * right_val),
                 }
             }
             _ => Err("Unexpected expression node".to_string()),
@@ -338,12 +353,19 @@ impl CodeGenerator {
                 match op {
                     BinaryOperator::Plus => self.code.push_str(" + "),
                     BinaryOperator::Minus => self.code.push_str(" - "),
+                    BinaryOperator::Multiply => self.code.push_str(" * "),
+                    BinaryOperator::Divide => self.code.push_str(" / "),
                 }
                 self.visit(right)?;
                 self.code.push(')');
             }
             ASTNode::Number(num) => {
-                self.code.push_str(&num.to_string());
+                if num.fract() == 0.0 {
+                    // If num is an integer, append ".0"
+                    self.code.push_str(&format!("{:.1}", num));
+                } else {
+                    self.code.push_str(&num.to_string());
+                }
             }
             ASTNode::Identifier(name) => {
                 self.code.push_str(name);

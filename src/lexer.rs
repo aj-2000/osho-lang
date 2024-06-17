@@ -27,6 +27,8 @@ pub enum Kind {
     Eof, // end of file
     WhiteSpace,
     Plus,
+    Multiply,
+    Divide,
     Increment, // for '++'
     Decrement, // for '--'
     Minus,
@@ -98,6 +100,8 @@ impl<'a> Lexer<'a> {
             match c {
                 '+' => return self.handle_plus(),
                 '-' => return self.handle_minus(),
+                '*' => return Kind::Multiply,
+                '/' => return Kind::Divide,
                 '=' => return Kind::EqualsTo,
                 '(' => return Kind::OpenParen,
                 ')' => return Kind::CloseParen,

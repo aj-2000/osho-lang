@@ -1,0 +1,33 @@
+let a = 1 
+let b = 2
+let c = 3
+let d = 4
+
+a = b
+b = a
+
+c++
+d--
+
+print(a)
+print(b)
+print(c)
+print(d)
+
+print(a + b)
+print(a - b)
+print(a / b)
+print(a * b)
+
+print(a + b + c)
+print(a + b + c + d)
+print(a - b - c)
+print(a - b - c - d)
+print(a * b * c)
+print(a * b * c * d)
+print(a / b / c)
+print(a / b / c / d)
+
+print(d * a + b)
+print(d / a + b)
+print(d / a - b)

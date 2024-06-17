@@ -1,7 +1,7 @@
-let a = 1
-a = 4
-a++
-a--
-let b = 5.02
+let a1 = 1
+a1 = 4
+a1++
+a1--
+let b = 1+1+1+a1
 b++
-print(b+a)
+print(b+a1)

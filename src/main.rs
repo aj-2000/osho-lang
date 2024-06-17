@@ -19,7 +19,7 @@ fn main() {
     let ast = parser.parse().expect("Failed to parse");
 
     let mut analyzer = SemanticAnalyzer::new();
-    print!("\nInterpreter Output:\n",);
+    print!("\nInterpreter output:\n",);
     analyzer.analyze(&ast).expect("Semantic analysis failed");
 
     let mut generator = CodeGenerator::new();

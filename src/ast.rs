@@ -133,14 +133,11 @@ impl<'a> Parser<'a> {
         }
 
         if self.match_token(Kind::EqualsTo) {
-            let value = self.consume(Kind::Number, "expected a number")?;
-            if let TokenValue::Number(num) = value.value {
-                return Ok(ASTNode::Assignment {
-                    name: self.token_to_string(&prev_token)?,
-                    value: Box::new(ASTNode::Number(num)),
-                });
-            }
-            return Err("invalid assignment".to_string());
+            let expr = self.expression()?;
+            return Ok(ASTNode::Assignment {
+                name: self.token_to_string(&prev_token)?,
+                value: Box::new(expr),
+            });
         }
 
         if self.match_token(Kind::OpenParen) {

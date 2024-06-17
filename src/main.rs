@@ -1,11 +1,17 @@
-use crate::ast::{CodeGenerator, Parser, SemanticAnalyzer};
-use crate::lexer::Lexer;
+
 use std::fs::{read_to_string, File};
 use std::io::Write;
 use std::process::Command;
 
-mod ast;
 mod lexer;
+mod parser;
+mod semantic_analyzer;
+mod code_generator;
+
+use crate::lexer::Lexer;
+use crate::parser::Parser;
+use crate::semantic_analyzer::SemanticAnalyzer;
+use code_generator::CodeGenerator;
 
 fn main() {
     let file_path = "./test.osho";

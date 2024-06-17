@@ -1,7 +1,5 @@
 ## TODOs
 
-3. MUL
-4. DIV
 5. Code Cleaning
 6. If/Else + Bool + Bool Expr
 7. String - print, assign, concatenate
